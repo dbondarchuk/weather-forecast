@@ -1,0 +1,12 @@
+$line-height: 23px;
+
+.change-location-toggle {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  line-height: $line-height;
+}
+
+.current-city {
+  line-height: $line-height;
+  padding-right: 9px;
+}

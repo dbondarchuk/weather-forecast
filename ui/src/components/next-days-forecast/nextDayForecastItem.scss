@@ -1,0 +1,10 @@
+.next-day-item {
+  border-radius: 10px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color ease-in-out 0.4s;
+
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}

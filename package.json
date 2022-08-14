@@ -1,0 +1,31 @@
+{
+  "name": "weather-forecast",
+  "version": "0.0.1",
+  "description": "Weather Forecast app",
+  "author": "Dmytro Bondarchuk",
+  "repository": {
+    "url": "https://github.com/dbondarchuk/weather-forecast"
+  },
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "api",
+    "ui",
+    "models"
+  ],
+  "scripts": {
+    "start:api": "yarn --cwd models build && yarn --cwd api build && yarn --cwd api start:dev",
+    "start:ui": "yarn --cwd models build && yarn --cwd ui start",
+    "start:dev": "yarn --cwd models build && yarn --cwd ui build && yarn --cwd api build && yarn --cwd api start:dev",
+    "start:no-build": "yarn --cwd api start",
+    "start": "yarn --cwd models build && yarn --cwd ui build && yarn --cwd api build && yarn --cwd api start",
+    "build": "yarn --cwd models build && yarn --cwd api build && yarn --cwd ui build",
+    "build:api": "yarn --cwd models build && yarn --cwd api build",
+    "build:ui": "yarn --cwd models build && yarn --cwd ui build",
+    "build:models": "yarn --cwd models build",
+    "format": "yarn prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
+}

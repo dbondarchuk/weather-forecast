@@ -1,0 +1,14 @@
+{
+  "name": "@weather-forecast/models",
+  "version": "0.0.1",
+  "description": "Shared models for forecast project",
+  "repository": {
+    "url": "https://github.com/dbondarchuk/weather-forecast"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Dmytro Bondarcuk",
+  "license": "MIT"
+}
