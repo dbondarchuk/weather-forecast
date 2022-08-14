@@ -18,7 +18,7 @@ jobs:
         run: make lint
 
       - name: Run tests
-        run: make
+        run: make test
 
       - name: Run build
         run: make build
