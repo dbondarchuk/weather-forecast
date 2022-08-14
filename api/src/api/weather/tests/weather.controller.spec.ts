@@ -1,9 +1,10 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, CACHE_MANAGER } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CurrentWeather } from '@weather-forecast/models/weather/currentWeather';
-import { WeatherController } from './weather.controller';
-import { WeatherService } from './weather.service';
+import { WeatherController } from '../controllers/weather.controller';
+import { WeatherService } from '../services/weather.service';
+import { WeatherApiFactory } from '../services/weatherApiFactory.service';
 
 describe('WeatherController', () => {
   let weatherController: WeatherController;
@@ -25,6 +26,8 @@ describe('WeatherController', () => {
             }),
           },
         },
+        { provide: WeatherApiFactory, useValue: {getClient: () => {}} },
+        { provide: CACHE_MANAGER, useFactory: jest.fn() },
       ],
     }).compile();
 

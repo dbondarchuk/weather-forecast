@@ -10,31 +10,13 @@ import {
   Res,
   UseInterceptors,
 } from '@nestjs/common';
-import { CitiesService } from './cities.service';
+import { CitiesService } from '../services/cities.service';
 import { City } from '@weather-forecast/models';
 
 @Controller('api/city')
 @UseInterceptors(CacheInterceptor)
 export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
-
-  // @Get(':country/:name')
-  // async getCityIdAsync(@Param('country') country: string, @Param('name') name: string): Promise<number> {
-  //   if (!country) {
-  //     throw new BadRequestException('Country is required');
-  //   }
-
-  //   if (!name) {
-  //     throw new BadRequestException('City name is required');
-  //   }
-
-  //   const city =  await this.citiesService.getCityIdAsync(country, name);
-  //   if (!city) {
-  //     throw new NotFoundException(`Can't find city ${name} in ${country}`);
-  //   }
-
-  //   return city.id;
-  // }
 
   @Get('autocomplete')
   async getAutoCompleteSuggestionsAsync(

@@ -24,4 +24,7 @@ build-docker:
 publish-docker:
 	docker push ${DOCKER_IMAGE}
 
+test:
+	yarn run test
+
 docker: buld-docker start-docker
