@@ -1,4 +1,4 @@
-name: Docker
+name: Master build and publish
 
 on:
   push:

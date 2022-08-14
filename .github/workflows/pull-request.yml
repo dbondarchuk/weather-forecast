@@ -1,4 +1,4 @@
-name: Makefile CI
+name: Build for pull request
 
 on:
   pull_request:

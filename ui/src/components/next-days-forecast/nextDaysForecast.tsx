@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React from 'react';
 import {
-  Forecast,
   FORECAST_DATE_FORMAT,
   Weather,
 } from '@weather-forecast/models';
