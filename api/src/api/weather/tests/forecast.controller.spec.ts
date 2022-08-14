@@ -26,7 +26,7 @@ describe('ForecastController', () => {
             }),
           },
         },
-        { provide: WeatherApiFactory, useValue: { getClient: () => { } } },
+        { provide: WeatherApiFactory, useValue: { getClient: () => {} } },
         { provide: CACHE_MANAGER, useFactory: jest.fn() },
       ],
     }).compile();
@@ -42,12 +42,12 @@ describe('ForecastController', () => {
       const response: Forecast = {
         // @ts-expect-error
         1: {
-          temperature: 10
+          temperature: 10,
         },
         // @ts-expect-error
         2: {
-          temperature: 15
-        }
+          temperature: 15,
+        },
       };
 
       jest
@@ -55,7 +55,7 @@ describe('ForecastController', () => {
         .mockImplementation((cityId) => Promise.resolve(response));
 
       expect(await forecastController.getForecastByCityIdAsync(cityId)).toBe(
-        response
+        response,
       );
     });
   });

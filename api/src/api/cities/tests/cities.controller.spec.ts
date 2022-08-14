@@ -1,6 +1,4 @@
-import {
-  BadRequestException, CACHE_MANAGER,
-} from '@nestjs/common';
+import { BadRequestException, CACHE_MANAGER } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { City } from '@weather-forecast/models';
@@ -16,12 +14,12 @@ describe('CitiesController', () => {
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [CitiesController],
-      providers: [CitiesService,
+      providers: [
+        CitiesService,
         CityList,
-        { provide: WeatherApiFactory, useValue: {getClient: () => {}}},
-        { provide: CACHE_MANAGER, useFactory: jest.fn() }
+        { provide: WeatherApiFactory, useValue: { getClient: () => {} } },
+        { provide: CACHE_MANAGER, useFactory: jest.fn() },
       ],
-      
     }).compile();
 
     citiesService = moduleRef.get<CitiesService>(CitiesService);
@@ -33,17 +31,25 @@ describe('CitiesController', () => {
       const cityId = 1243;
       const timezone = -240;
 
-      jest.spyOn(citiesService, 'getCityTimezone').mockImplementation((cityId) => Promise.resolve(timezone));
+      jest
+        .spyOn(citiesService, 'getCityTimezone')
+        .mockImplementation((cityId) => Promise.resolve(timezone));
 
-      expect(await citiesController.getCityTimezone(cityId.toString())).toBe(timezone);
+      expect(await citiesController.getCityTimezone(cityId.toString())).toBe(
+        timezone,
+      );
     });
 
     it('should throw BadRequest for missed cityId', async () => {
-      await expect(async () => await citiesController.getCityTimezone(null)).rejects.toThrowError(BadRequestException);
+      await expect(
+        async () => await citiesController.getCityTimezone(null),
+      ).rejects.toThrowError(BadRequestException);
     });
 
     it('should throw BadRequest for wrong city id', async () => {
-      await expect(async () => await citiesController.getCityTimezone('1w3h')).rejects.toThrowError(BadRequestException);
+      await expect(
+        async () => await citiesController.getCityTimezone('1w3h'),
+      ).rejects.toThrowError(BadRequestException);
     });
   });
 
@@ -52,13 +58,15 @@ describe('CitiesController', () => {
       const city: City = {
         id: 1,
         name: 'Toronto',
-        country: 'CA'
+        country: 'CA',
       };
 
       const spy = jest.spyOn(citiesService, 'autoCompleteCitiesAsync');
       spy.mockImplementation((q) => Promise.resolve([city]));
 
-      expect(await citiesController.getAutoCompleteSuggestionsAsync(undefined)).toContain(city);
+      expect(
+        await citiesController.getAutoCompleteSuggestionsAsync(undefined),
+      ).toContain(city);
 
       expect(spy).toBeCalledTimes(1);
     });

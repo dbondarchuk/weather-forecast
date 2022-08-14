@@ -27,7 +27,9 @@ export class WeatherService {
   }
 
   async getForecastByCityIdAsync(cityId: number): Promise<Forecast> {
-    const response = await this.weatherClient.getThreeHourForecastByCityId(cityId);
+    const response = await this.weatherClient.getThreeHourForecastByCityId(
+      cityId,
+    );
 
     return response.list
       .map((item) => {

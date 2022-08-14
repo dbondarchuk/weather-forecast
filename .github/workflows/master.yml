@@ -2,7 +2,7 @@ name: Master build and publish
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
 
 # env:
 #   # Use docker.io for Docker Hub if empty
@@ -12,7 +12,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -27,9 +26,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_SECRET }}
-      
+
       - name: Run build
         run: make build-docker
-        
+
       - name: Publish
         run: make publish-docker

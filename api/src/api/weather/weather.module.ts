@@ -14,6 +14,6 @@ import { WeatherApiFactory } from './services/weatherApiFactory.service';
   ],
   controllers: [WeatherController, ForecastController],
   providers: [WeatherService, WeatherApiFactory],
-  exports: [WeatherApiFactory]
+  exports: [WeatherApiFactory],
 })
 export class WeatherModule {}

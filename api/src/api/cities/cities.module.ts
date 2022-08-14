@@ -10,7 +10,7 @@ import { CityList } from './services/cityList.service';
     CacheModule.register({
       ttl: 3600,
     }),
-    WeatherApiFactory
+    WeatherApiFactory,
   ],
   controllers: [CitiesController],
   providers: [CitiesService, CityList],

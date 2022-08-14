@@ -5,31 +5,29 @@ import { CitiesService } from '../services/cities.service';
 import { CityList } from '../services/cityList.service';
 
 describe('CitiesService', () => {
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   describe('get city timezone', () => {
     it('should return city timezone for valid city id', async () => {
       const cityId = 1243;
       const timezone = -240;
 
-      
       const weatherClientMock: jest.Mocked<OpenWeatherMap> = {
         // @ts-expect-error
-        getCurrentWeatherByCityId: (cityId) => Promise.resolve({
-          timezone: timezone * 60
-        })
+        getCurrentWeatherByCityId: (cityId) =>
+          Promise.resolve({
+            timezone: timezone * 60,
+          }),
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
         // @ts-expect-error
-        getClient: () => weatherClientMock
+        getClient: () => weatherClientMock,
       };
 
       // @ts-expect-error
-      const cityListMock: jest.Mocked<CityList> = {
-      };
-      
+      const cityListMock: jest.Mocked<CityList> = {};
+
       const service = new CitiesService(cityListMock, weatherClientFactoryMock);
 
       expect(await service.getCityTimezone(cityId)).toBe(timezone);
@@ -41,25 +39,25 @@ describe('CitiesService', () => {
       const city1: City = {
         id: 1,
         name: 'Toronto',
-        country: 'CA'
+        country: 'CA',
       };
 
       const city2: City = {
         id: 2,
         name: 'Calgary',
-        country: 'CA'
+        country: 'CA',
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
         // @ts-expect-error
-        getClient: () => {}
+        getClient: () => {},
       };
 
       const cityListMock: jest.Mocked<CityList> = {
         // @ts-expect-error
-        getCities: () => [city1, city2]
+        getCities: () => [city1, city2],
       };
-      
+
       const service = new CitiesService(cityListMock, weatherClientFactoryMock);
 
       const result = await service.autoCompleteCitiesAsync('OrO');
@@ -69,24 +67,24 @@ describe('CitiesService', () => {
 
     it('should return max 10 cities matching query', async () => {
       const cities: City[] = [];
-      for (let i = 0; i < 20; i++){
+      for (let i = 0; i < 20; i++) {
         cities.push({
           id: i,
-          name: 'Toronto'+i,
-          country: 'CA'
+          name: 'Toronto' + i,
+          country: 'CA',
         });
       }
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
         // @ts-expect-error
-        getClient: () => {}
+        getClient: () => {},
       };
 
       const cityListMock: jest.Mocked<CityList> = {
         // @ts-expect-error
-        getCities: () => cities
+        getCities: () => cities,
       };
-      
+
       const service = new CitiesService(cityListMock, weatherClientFactoryMock);
 
       const result = await service.autoCompleteCitiesAsync('OrO');

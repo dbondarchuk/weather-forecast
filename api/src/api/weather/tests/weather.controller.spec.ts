@@ -26,7 +26,7 @@ describe('WeatherController', () => {
             }),
           },
         },
-        { provide: WeatherApiFactory, useValue: {getClient: () => {}} },
+        { provide: WeatherApiFactory, useValue: { getClient: () => {} } },
         { provide: CACHE_MANAGER, useFactory: jest.fn() },
       ],
     }).compile();

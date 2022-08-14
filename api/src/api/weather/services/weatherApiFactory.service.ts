@@ -12,7 +12,7 @@ export class WeatherApiFactory {
 
   getClient(): OpenWeatherMap {
     const api = new OpenWeatherMap({
-      apiKey: this.apikey
+      apiKey: this.apikey,
     });
 
     api.setUnits('metric');
