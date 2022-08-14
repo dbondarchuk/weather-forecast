@@ -6,6 +6,9 @@ init:
 format:
 	yarn run format
 
+lint:
+	yarn run lint
+
 start:
 	yarn run start
 
@@ -23,5 +26,8 @@ build-docker:
 
 publish-docker:
 	docker push ${DOCKER_IMAGE}
+
+test:
+	yarn run test
 
 docker: buld-docker start-docker

@@ -1,23 +1,19 @@
 import { CacheInterceptor, Injectable, UseInterceptors } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import OpenWeatherMap from 'openweathermap-ts';
 import { CurrentWeather, Weather, Forecast } from '@weather-forecast/models';
+import { WeatherApiFactory } from './weatherApiFactory.service';
 
 @Injectable()
 @UseInterceptors(CacheInterceptor)
 export class WeatherService {
-  private readonly api: OpenWeatherMap;
+  private readonly weatherClient: OpenWeatherMap;
 
-  constructor(private readonly configService: ConfigService) {
-    this.api = new OpenWeatherMap({
-      apiKey: this.configService.get<string>('OPENWEATHERMAP_API_KEY'),
-    });
-
-    this.api.setUnits('metric');
+  constructor(private readonly weatherClientFactory: WeatherApiFactory) {
+    this.weatherClient = weatherClientFactory.getClient();
   }
 
   async getWeatherByCityIdAsync(cityId: number): Promise<CurrentWeather> {
-    const response = await this.api.getCurrentWeatherByCityId(cityId);
+    const response = await this.weatherClient.getCurrentWeatherByCityId(cityId);
 
     return {
       type: response.weather[0].main,
@@ -31,7 +27,9 @@ export class WeatherService {
   }
 
   async getForecastByCityIdAsync(cityId: number): Promise<Forecast> {
-    const response = await this.api.getThreeHourForecastByCityId(cityId);
+    const response = await this.weatherClient.getThreeHourForecastByCityId(
+      cityId,
+    );
 
     return response.list
       .map((item) => {

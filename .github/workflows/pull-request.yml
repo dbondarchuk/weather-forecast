@@ -2,18 +2,23 @@ name: Build for pull request
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Install dependencies
-      run: make init
-      
-    - name: Run build
-      run: make build
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: make init
+
+      - name: Run lint
+        run: make lint
+
+      - name: Run tests
+        run: make test
+
+      - name: Run build
+        run: make build

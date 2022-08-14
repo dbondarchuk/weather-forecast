@@ -1,9 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import {
-  FORECAST_DATE_FORMAT,
-  Weather,
-} from '@weather-forecast/models';
+import { FORECAST_DATE_FORMAT, Weather } from '@weather-forecast/models';
 import {
   NextDayForecastItem,
   NextDayForecastItemModel,

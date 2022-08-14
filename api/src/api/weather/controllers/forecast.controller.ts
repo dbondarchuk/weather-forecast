@@ -3,23 +3,21 @@ import {
   CacheInterceptor,
   Controller,
   Get,
-  HttpStatus,
   Param,
-  Res,
   UseInterceptors,
 } from '@nestjs/common';
-import { CurrentWeather } from '@weather-forecast/models';
-import { WeatherService } from './weather.service';
+import { WeatherService } from '../services/weather.service';
+import { Forecast } from '@weather-forecast/models';
 
-@Controller('api/weather')
+@Controller('api/forecast')
 @UseInterceptors(CacheInterceptor)
-export class WeatherController {
+export class ForecastController {
   constructor(private readonly weatherService: WeatherService) {}
 
   @Get('city/:cityId')
-  async getWeatherByCityIdAsync(
+  async getForecastByCityIdAsync(
     @Param('cityId') cityIdStr: string,
-  ): Promise<CurrentWeather> {
+  ): Promise<Forecast> {
     if (!cityIdStr) {
       throw new BadRequestException('CityId is required');
     }
@@ -29,6 +27,6 @@ export class WeatherController {
       throw new BadRequestException('CityId should be an integer');
     }
 
-    return await this.weatherService.getWeatherByCityIdAsync(cityId);
+    return await this.weatherService.getForecastByCityIdAsync(cityId);
   }
 }

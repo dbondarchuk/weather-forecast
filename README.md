@@ -50,3 +50,7 @@ There are some shortcuts in `Makefile` in root directory. If your system doesn't
 PRs are welcomed and are required to publish your changes. Please run `make format` before the commit
 
 Please create issues on the Github
+
+## Testing
+
+You can run `make test` to launch tests in both `api` and `ui` projects

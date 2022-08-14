@@ -4,8 +4,6 @@ import { join } from 'path';
 
 @Controller('')
 export class AppController {
-  constructor() {}
-
   @Get('')
   getUi(@Req() request: Request, @Res() response: Response): void {
     console.log(__dirname);
