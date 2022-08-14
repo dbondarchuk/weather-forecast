@@ -1,6 +1,5 @@
 import { CacheModule, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { WeatherApiFactory } from '../weather/services/weatherApiFactory.service';
+import { WeatherModule } from '../weather/weather.module';
 import { CitiesController } from './controllers/cities.controller';
 import { CitiesService } from './services/cities.service';
 import { CityList } from './services/cityList.service';
@@ -10,7 +9,7 @@ import { CityList } from './services/cityList.service';
     CacheModule.register({
       ttl: 3600,
     }),
-    WeatherApiFactory,
+    WeatherModule,
   ],
   controllers: [CitiesController],
   providers: [CitiesService, CityList],

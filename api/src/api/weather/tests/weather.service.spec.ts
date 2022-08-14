@@ -21,7 +21,7 @@ describe('WeatherService', () => {
             main: 'Clouds',
           },
         ],
-        // @ts-expect-error
+        // @ts-expect-error Tests
         main: {
           feels_like: 12,
           temp: 13,
@@ -31,12 +31,12 @@ describe('WeatherService', () => {
       };
 
       const weatherClientMock: jest.Mocked<OpenWeatherMap> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getCurrentWeatherByCityId: (cityId) => Promise.resolve(response),
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getClient: () => weatherClientMock,
       };
 
@@ -67,7 +67,7 @@ describe('WeatherService', () => {
                 main: 'Clouds',
               },
             ],
-            // @ts-expect-error
+            // @ts-expect-error Tests
             main: {
               temp: 13,
               temp_max: 11,
@@ -84,7 +84,7 @@ describe('WeatherService', () => {
                 main: 'Clouds',
               },
             ],
-            // @ts-expect-error
+            // @ts-expect-error Tests
             main: {
               temp: 15,
               temp_max: 18,
@@ -95,12 +95,12 @@ describe('WeatherService', () => {
       };
 
       const weatherClientMock: jest.Mocked<OpenWeatherMap> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getThreeHourForecastByCityId: (cityId) => Promise.resolve(response),
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getClient: () => weatherClientMock,
       };
 

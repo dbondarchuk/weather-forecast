@@ -3,11 +3,8 @@ import {
   CacheInterceptor,
   Controller,
   Get,
-  HttpStatus,
-  NotFoundException,
   Param,
   Query,
-  Res,
   UseInterceptors,
 } from '@nestjs/common';
 import { CitiesService } from '../services/cities.service';

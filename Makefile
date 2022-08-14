@@ -6,6 +6,9 @@ init:
 format:
 	yarn run format
 
+lint:
+	yarn run lint
+
 start:
 	yarn run start
 

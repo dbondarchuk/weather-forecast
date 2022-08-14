@@ -1,7 +1,7 @@
 import { BadRequestException, CACHE_MANAGER } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Forecast, Weather } from '@weather-forecast/models';
+import { Forecast } from '@weather-forecast/models';
 import { ForecastController } from '../controllers/forecast.controller';
 import { WeatherService } from '../services/weather.service';
 import { WeatherApiFactory } from '../services/weatherApiFactory.service';
@@ -40,11 +40,11 @@ describe('ForecastController', () => {
       const cityId = '1243';
 
       const response: Forecast = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         1: {
           temperature: 10,
         },
-        // @ts-expect-error
+        // @ts-expect-error Tests
         2: {
           temperature: 15,
         },

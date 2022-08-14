@@ -1,5 +1,4 @@
 import { BadRequestException, CACHE_MANAGER } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { City } from '@weather-forecast/models';
 import { WeatherApiFactory } from '../../weather/services/weatherApiFactory.service';
@@ -16,7 +15,7 @@ describe('CitiesController', () => {
       controllers: [CitiesController],
       providers: [
         CitiesService,
-        CityList,
+        { provide: CityList, useValue: {} },
         { provide: WeatherApiFactory, useValue: { getClient: () => {} } },
         { provide: CACHE_MANAGER, useFactory: jest.fn() },
       ],

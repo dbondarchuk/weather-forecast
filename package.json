@@ -24,9 +24,13 @@
     "build:ui": "yarn --cwd models build && yarn --cwd ui build",
     "build:models": "yarn --cwd models build",
     "test": "yarn --cwd models build && yarn --cwd api test",
-    "format": "yarn prettier --write ."
+    "format": "yarn prettier --write .",
+    "lint": "yarn eslint ."
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.22.0",
     "prettier": "2.7.1"
   }
 }

@@ -5,27 +5,25 @@ import { CitiesService } from '../services/cities.service';
 import { CityList } from '../services/cityList.service';
 
 describe('CitiesService', () => {
-  beforeEach(async () => {});
-
   describe('get city timezone', () => {
     it('should return city timezone for valid city id', async () => {
       const cityId = 1243;
       const timezone = -240;
 
       const weatherClientMock: jest.Mocked<OpenWeatherMap> = {
-        // @ts-expect-error
         getCurrentWeatherByCityId: (cityId) =>
+          // @ts-expect-error Tests
           Promise.resolve({
             timezone: timezone * 60,
           }),
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getClient: () => weatherClientMock,
       };
 
-      // @ts-expect-error
+      // @ts-expect-error Tests
       const cityListMock: jest.Mocked<CityList> = {};
 
       const service = new CitiesService(cityListMock, weatherClientFactoryMock);
@@ -49,12 +47,12 @@ describe('CitiesService', () => {
       };
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getClient: () => {},
       };
 
       const cityListMock: jest.Mocked<CityList> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getCities: () => [city1, city2],
       };
 
@@ -76,12 +74,12 @@ describe('CitiesService', () => {
       }
 
       const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getClient: () => {},
       };
 
       const cityListMock: jest.Mocked<CityList> = {
-        // @ts-expect-error
+        // @ts-expect-error Tests
         getCities: () => cities,
       };
 

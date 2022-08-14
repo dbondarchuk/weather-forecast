@@ -3,9 +3,7 @@ import {
   CacheInterceptor,
   Controller,
   Get,
-  HttpStatus,
   Param,
-  Res,
   UseInterceptors,
 } from '@nestjs/common';
 import { CurrentWeather } from '@weather-forecast/models';
