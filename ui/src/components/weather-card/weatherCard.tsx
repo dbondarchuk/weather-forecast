@@ -21,6 +21,7 @@ import { getApiUrl } from '../../helpers';
 
 export interface WeatherCardProperties {
   defaultCity: CityModel;
+  onCityChange?: (city: CityModel) => void;
 }
 
 interface WeatherCardState {
@@ -83,7 +84,10 @@ export class WeatherCard extends React.Component<
       {
         city: city,
       },
-      () => this.fetchData(),
+      async () => {
+        if (this.props.onCityChange) this.props.onCityChange(city);
+        await this.fetchData();
+      },
     );
   }
 

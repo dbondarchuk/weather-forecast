@@ -39,4 +39,29 @@ export class CitiesController {
 
     return await this.citiesService.getCityTimezone(cityId);
   }
+
+  @Get('')
+  async getCityByCoordinates(
+    @Query('lat') latitudeStr: string,
+    @Query('lon') longitudeStr: string,
+  ): Promise<City> {
+    if (!latitudeStr) {
+      throw new BadRequestException('Latitude is required');
+    }
+
+    const latitude = Number(latitudeStr);
+    if (isNaN(latitude)) {
+      throw new BadRequestException('Latitude should be an integer');
+    }
+    if (!longitudeStr) {
+      throw new BadRequestException('Latitude is required');
+    }
+
+    const longitude = Number(longitudeStr);
+    if (isNaN(longitude)) {
+      throw new BadRequestException('Longitude should be an integer');
+    }
+
+    return await this.citiesService.getCityByCoordinates(latitude, longitude);
+  }
 }

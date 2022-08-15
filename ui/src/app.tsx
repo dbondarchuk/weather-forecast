@@ -1,29 +1,21 @@
-import { City } from '@weather-forecast/models';
 import React from 'react';
-
-import Container from 'react-bootstrap/Container';
+import { Container } from 'react-bootstrap';
+import { WeatherCardContainer } from './components/weather-card-container/weatherCardContainer';
 
 import './app.scss';
-import { WeatherCard } from './components/weather-card/weatherCard';
 
-const city: City = {
-  name: 'Toronto',
-  country: 'CA',
-  id: 6167865,
-}; // Let's imagine that we can get user's location
+export class App extends React.Component {
+  render() {
+    return (
+      <Container fluid>
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 text-center title">
+            <h1>Weather Forecast</h1>
+          </div>
 
-const App: React.FC = () => {
-  return (
-    <Container fluid>
-      <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col-12 text-center title">
-          <h1>Weather Forecast</h1>
+          <WeatherCardContainer />
         </div>
-
-        <WeatherCard defaultCity={city} />
-      </div>
-    </Container>
-  );
-};
-
-export default App;
+      </Container>
+    );
+  }
+}

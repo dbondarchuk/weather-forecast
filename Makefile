@@ -15,8 +15,14 @@ lint:
 start:
 	yarn run start
 
+start-prod:
+	yarn run start:prod
+
 start-dev:
 	yarn run start:dev
+
+start-no-build:
+	yarn run start:no-build
 
 start-docker:
 	docker run -p:3001:3001 ${DOCKER_IMAGE}
