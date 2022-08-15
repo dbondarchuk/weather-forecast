@@ -32,3 +32,13 @@ jobs:
 
       - name: Publish
         run: make publish-docker-all
+
+      - name: 'Copy and rename dockerfile' # workaround 
+        run: |
+          mv Dockerfile.heroku Dockerfile
+      - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'dbondarchuk-weather-forecast' #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
