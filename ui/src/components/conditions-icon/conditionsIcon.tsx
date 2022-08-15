@@ -14,6 +14,7 @@ export class ConditionsIcon extends React.Component<ConditionsIconProperties> {
         src={'http://openweathermap.org/img/wn/' + this.props.icon + '.png'}
         alt={description}
         title={description}
+        data-testid="conditions-icon"
       />
     );
   }

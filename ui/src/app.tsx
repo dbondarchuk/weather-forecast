@@ -1,9 +1,16 @@
+import { City } from '@weather-forecast/models';
 import React from 'react';
 
 import Container from 'react-bootstrap/Container';
 
 import './app.scss';
 import { WeatherCard } from './components/weather-card/weatherCard';
+
+const city: City = {
+  name: 'Toronto',
+  country: 'CA',
+  id: 6167865,
+}; // Let's imagine that we can get user's location
 
 const App: React.FC = () => {
   return (
@@ -13,7 +20,7 @@ const App: React.FC = () => {
           <h1>Weather Forecast</h1>
         </div>
 
-        <WeatherCard />
+        <WeatherCard defaultCity={city} />
       </div>
     </Container>
   );

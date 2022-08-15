@@ -34,7 +34,7 @@ export class Clock extends React.Component<ClockProperties, ClockState> {
 
   render() {
     return (
-      <div className="small">
+      <div className="small" data-testid="clock">
         {this.state.date.get('hours').toString().padStart(2, '0')}
         <span className="blink">:</span>
         {this.state.date.get('minutes').toString().padStart(2, '0')}

@@ -4,4 +4,5 @@ bin
 build
 
 .eslintrc.js
+*.spec.tsx
 *.spec.ts

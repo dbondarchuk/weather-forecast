@@ -16,7 +16,7 @@ export class WeatherCardHeader extends React.Component<WeatherCardHeaderProperti
     return (
       <Row className="d-flex justify-content-around mt-3">
         <div className="col-md-6 text-start">
-          <span className="h3 mb-3">
+          <span className="h3 mb-3" data-testid="current-date">
             {moment().utcOffset(this.props.timezone).format('dddd, MMMM Do')}
           </span>
           <Clock timezone={this.props.timezone} />

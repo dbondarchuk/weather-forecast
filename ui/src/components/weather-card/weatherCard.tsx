@@ -17,9 +17,11 @@ import {
   HourlyForecastProperties,
 } from '../hourly-forecast/hourlyForecast';
 import moment from 'moment';
-import { getApiUrl } from '../../http';
+import { getApiUrl } from '../../helpers';
 
-export interface WeatherCardProperties {}
+export interface WeatherCardProperties {
+  defaultCity: CityModel;
+}
 
 interface WeatherCardState {
   selected?: HourlyForecastProperties;
@@ -38,22 +40,18 @@ export class WeatherCard extends React.Component<
 
     this.state = {
       selected: undefined,
-      timezone: -360,
-      city: {
-        name: 'Toronto',
-        country: 'CA',
-        id: 6167865,
-      }, // Let's imagine that we can get user's location
+      timezone: NaN,
+      city: this.props.defaultCity,
     };
   }
 
-  private buildForecast(forecast: Forecast): ForecastGroup {
+  private buildForecast(forecast: Forecast, timezone: number): ForecastGroup {
     return Object.keys(forecast)
       .filter((key) => !isNaN(Number(key)))
       .map((key) => Number(key))
       .map((key) => {
         const weather = forecast[key];
-        const date = moment(key * 1000).utcOffset(this.state.timezone);
+        const date = moment(key * 1000).utcOffset(timezone);
         return {
           date: date.format(FORECAST_DATE_FORMAT),
           time: date.get('hours'),
@@ -89,24 +87,42 @@ export class WeatherCard extends React.Component<
     );
   }
 
-  async fetchWeather() {
+  async fetchWeather(): Promise<CurrentWeatherModel> {
     const body = await fetch(
       `${getApiUrl()}/weather/city/${this.state.city?.id}`,
     );
-    const weather = (await body.json()) as CurrentWeatherModel;
-    this.setState({
-      weather: weather,
-    });
+    return (await body.json()) as CurrentWeatherModel;
   }
 
-  async fetchForecast() {
+  async fetchForecast(): Promise<Forecast> {
     const body = await fetch(
       `${getApiUrl()}/forecast/city/${this.state.city?.id}`,
     );
-    const forecast = (await body.json()) as Forecast;
+
+    return (await body.json()) as Forecast;
+  }
+
+  async fetchTimezone(): Promise<number> {
+    const response = await fetch(
+      `${getApiUrl()}/city/${this.state.city?.id}/timezone`,
+    );
+
+    const body = await response.json();
+
+    return body as number;
+  }
+
+  async fetchData() {
+    const result = await Promise.all([
+      this.fetchTimezone(),
+      this.fetchWeather(),
+      this.fetchForecast(),
+    ]);
     this.setState(
       {
-        forecast: this.buildForecast(forecast),
+        timezone: result[0],
+        weather: result[1],
+        forecast: this.buildForecast(result[2], result[0]),
       },
       () => {
         this.selectDay(
@@ -114,23 +130,6 @@ export class WeatherCard extends React.Component<
         );
       },
     );
-  }
-
-  async fetchTimezone() {
-    const response = await fetch(
-      `${getApiUrl()}/city/${this.state.city?.id}/timezone`,
-    );
-    const body = await response.json();
-    const timezone = body as number;
-    this.setState({
-      timezone: timezone,
-    });
-  }
-
-  async fetchData() {
-    await this.fetchTimezone();
-    this.fetchWeather();
-    this.fetchForecast();
   }
 
   async componentDidMount() {
@@ -153,7 +152,7 @@ export class WeatherCard extends React.Component<
           <div className="card-body p-4">
             <div className="row text-center">
               <div className="col-md-9 text-center border-2 py-4 main-card">
-                {this.state.city && (
+                {this.state.city && !isNaN(this.state.timezone) && (
                   <WeatherCardHeader
                     city={this.state.city}
                     onChangeCity={(city) => this.onChangeCity(city)}
