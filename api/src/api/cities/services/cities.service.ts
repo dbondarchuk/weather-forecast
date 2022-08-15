@@ -34,4 +34,19 @@ export class CitiesService {
     const result = await this.weatherClient.getCurrentWeatherByCityId(cityId);
     return result.timezone / 60;
   }
+
+  async getCityByCoordinates(
+    latitude: number,
+    longitude: number,
+  ): Promise<City> {
+    const result = await this.weatherClient.getCurrentWeatherByGeoCoordinates(
+      latitude,
+      longitude,
+    );
+    return {
+      id: result.id,
+      name: result.name,
+      country: result.sys.country,
+    };
+  }
 }

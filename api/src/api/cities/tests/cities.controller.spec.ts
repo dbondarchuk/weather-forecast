@@ -70,4 +70,51 @@ describe('CitiesController', () => {
       expect(spy).toBeCalledTimes(1);
     });
   });
+
+  describe('get city by coordinateses', () => {
+    it('should return city for valid coordinates', async () => {
+      const latitude = 10;
+      const longitude = 10;
+
+      const city: City = {
+        id: 1234,
+        name: 'Toronto',
+        country: 'CA',
+      };
+      jest
+        .spyOn(citiesService, 'getCityByCoordinates')
+        .mockImplementation((latitude, longitude) => Promise.resolve(city));
+
+      expect(
+        await citiesController.getCityByCoordinates(
+          latitude.toString(),
+          longitude.toString(),
+        ),
+      ).toBe(city);
+    });
+
+    it('should throw BadRequest for missed latitude', async () => {
+      await expect(
+        async () => await citiesController.getCityByCoordinates(null, '1234'),
+      ).rejects.toThrowError(BadRequestException);
+    });
+
+    it('should throw BadRequest for missed longitude', async () => {
+      await expect(
+        async () => await citiesController.getCityByCoordinates('1234', null),
+      ).rejects.toThrowError(BadRequestException);
+    });
+
+    it('should throw BadRequest for wrong latitude', async () => {
+      await expect(
+        async () => await citiesController.getCityByCoordinates('1w3h', '1234'),
+      ).rejects.toThrowError(BadRequestException);
+    });
+
+    it('should throw BadRequest for wrong longitude', async () => {
+      await expect(
+        async () => await citiesController.getCityByCoordinates('1234', '1w3h'),
+      ).rejects.toThrowError(BadRequestException);
+    });
+  });
 });

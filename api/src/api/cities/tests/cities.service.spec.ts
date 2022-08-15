@@ -89,4 +89,44 @@ describe('CitiesService', () => {
       expect(result.length).toBe(10);
     });
   });
+
+  describe('get city by location', () => {
+    it('should return city for valid coordinates', async () => {
+      const latitude = 10;
+      const longitude = 10;
+
+      const city: City = {
+        id: 1234,
+        name: 'Toronto',
+        country: 'CA',
+      };
+
+      const weatherClientMock: jest.Mocked<OpenWeatherMap> = {
+        getCurrentWeatherByGeoCoordinates: (latitude, longitude) =>
+          // @ts-expect-error Tests
+          Promise.resolve({
+            name: city.name,
+            id: city.id,
+            sys: {
+              country: city.country,
+            },
+          }),
+      };
+
+      const weatherClientFactoryMock: jest.Mocked<WeatherApiFactory> = {
+        // @ts-expect-error Tests
+        getClient: () => weatherClientMock,
+      };
+
+      // @ts-expect-error Tests
+      const cityListMock: jest.Mocked<CityList> = {};
+
+      const service = new CitiesService(cityListMock, weatherClientFactoryMock);
+
+      const result = await service.getCityByCoordinates(latitude, longitude);
+      expect(result.id).toBe(city.id);
+      expect(result.name).toBe(city.name);
+      expect(result.country).toBe(city.country);
+    });
+  });
 });

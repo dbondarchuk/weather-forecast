@@ -39,5 +39,5 @@ jobs:
           heroku_app_name: 'dbondarchuk-weather-forecast' #Must be unique in Heroku
           email: ${{secrets.HEROKU_EMAIL}}
           dockerfile_name: Dockerfile.heroku
-          docker_options: "--no-cache"
+          docker_options: '--no-cache'
           process_type: web
