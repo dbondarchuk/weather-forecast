@@ -6,6 +6,8 @@ This is a monorepo for the Weather Forecast app / React component
 
 ![Example of app](./weather-forecast.png)
 
+Example: [https://dbondarchuk-weather-forecast.herokuapp.com/](https://dbondarchuk-weather-forecast.herokuapp.com/)
+
 ### Main features:
 
 - Responsive design
