@@ -31,4 +31,4 @@ jobs:
         run: make build-docker
 
       - name: Publish
-        run: make publish-docker
+        run: make publish-docker-all
