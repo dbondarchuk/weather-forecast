@@ -3,7 +3,7 @@ import React from 'react';
 import './autocomplete.scss';
 
 export interface AutocompleteProperties<T> {
-  value: T;
+  value?: T;
   url: string;
   displayFunc: (item: T) => string;
   keyFunc: (item: T) => string;
@@ -44,9 +44,11 @@ export class Autocomplete<T> extends React.Component<
   }
 
   componentDidMount() {
-    this.setState({
-      userInput: this.props.displayFunc(this.props.value),
-    });
+    if (this.props.value) {
+      this.setState({
+        userInput: this.props.displayFunc(this.props.value),
+      });
+    }
   }
 
   async onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -105,6 +107,10 @@ export class Autocomplete<T> extends React.Component<
         userInput: this.props.displayFunc(filteredSuggestions[newSuggestion]),
       });
     } else if (e.keyCode === 27) {
+      this.setState({
+        showSuggestions: false,
+      });
+
       this.props.onEscapeCallback && this.props.onEscapeCallback();
     }
   };
@@ -124,7 +130,7 @@ export class Autocomplete<T> extends React.Component<
     if (showSuggestions && userInput) {
       if (filteredSuggestions.length) {
         suggestionsListComponent = (
-          <ul className="suggestions">
+          <ul className="suggestions" data-testid="suggestions">
             {filteredSuggestions.map((suggestion, index) => {
               let className;
 
@@ -147,7 +153,7 @@ export class Autocomplete<T> extends React.Component<
         );
       } else {
         suggestionsListComponent = (
-          <div className="no-suggestions">
+          <div className="no-suggestions" data-testid="no-suggestions">
             <em>Nothing was found</em>
           </div>
         );
@@ -163,6 +169,7 @@ export class Autocomplete<T> extends React.Component<
           onKeyDown={(e) => this.onKeyDown(e)}
           value={userInput}
           placeholder="Start typing..."
+          data-testid="autocomplete-input"
         />
         {suggestionsListComponent}
       </div>

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { Weather } from '@weather-forecast/models';
-import { ConditionsIcon } from '../conditions-icon/conditionsIcon';
+import { HourlyForecastItem } from './hourlyForecastItem';
 
 export interface HourlyForecastProperties {
   date: moment.Moment;
@@ -12,7 +12,7 @@ export class HourlyForecast extends React.Component<HourlyForecastProperties> {
   render() {
     return (
       <div>
-        <p className="small mt-3 mb-md-2 pb-md-2">
+        <p className="small mt-3 mb-md-2 pb-md-2" data-testid="hourly-title">
           Hourly for {this.props.date.format('dddd, MMMM Do')}
         </p>
         {Object.keys(this.props.weathers)
@@ -20,15 +20,11 @@ export class HourlyForecast extends React.Component<HourlyForecastProperties> {
           .map((key) => {
             const weather = this.props.weathers[Number(key)];
             return (
-              <p className="pb-0 mb-0" key={key}>
-                <span className="pe-2">{key}:00</span>
-                <strong>{parseFloat(weather.temperature.toFixed(1))}°C</strong>
-                <ConditionsIcon
-                  icon={weather.icon}
-                  type={weather.type}
-                  description={weather.description}
-                />
-              </p>
+              <HourlyForecastItem
+                hour={Number(key)}
+                weather={weather}
+                key={key}
+              />
             );
           })}
       </div>

@@ -6,7 +6,7 @@ import { City as CityModel } from '@weather-forecast/models';
 
 import './city.scss';
 import Autocomplete from '../autocomplete/autocomplete';
-import { getApiUrl } from '../../http';
+import { getApiUrl } from '../../helpers';
 
 export interface CityProperties {
   city: CityModel;
@@ -40,7 +40,7 @@ export class City extends React.Component<CityProperties, CityState> {
       <div className="small d-flex flex-row justify-content-end">
         <div>
           {!this.state.showSelect && (
-            <span className="current-city">
+            <span className="current-city" data-testid="current-city">
               {this.props.city.name}, {this.props.city.country}
             </span>
           )}
@@ -62,6 +62,7 @@ export class City extends React.Component<CityProperties, CityState> {
           title="Change location"
           onClick={() => this.toggleCitySelect()}
           className="change-location-toggle"
+          data-testid="change-location-toggle"
         >
           <FontAwesomeIcon icon={faLocationArrow} />
         </div>

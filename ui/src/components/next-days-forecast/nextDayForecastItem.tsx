@@ -26,8 +26,11 @@ export class NextDayForecastItem extends React.Component<NextDayForecastItemProp
           (this.props.isSelected ? ' selected' : '')
         }
         onClick={() => this.props.onClick(this.props.date)}
+        data-testid="next-day-forecast-item"
       >
-        <p className="small mb-1">{this.props.date.format('ddd')}</p>
+        <p className="small mb-1" data-testid="day">
+          {this.props.date.format('ddd')}
+        </p>
         <p className="small mb-1">
           <ConditionsIcon
             icon={this.props.icon}
@@ -35,7 +38,7 @@ export class NextDayForecastItem extends React.Component<NextDayForecastItemProp
             description={this.props.description}
           />
         </p>
-        <p className="small mb-0">
+        <p className="small mb-0" data-testid="temperature">
           <strong>{this.props.temperature.toFixed(0)}°C</strong>
         </p>
       </div>

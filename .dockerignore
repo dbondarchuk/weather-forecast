@@ -3,6 +3,10 @@ dist
 node_modules
 build
 
+**/node_modules
+**/build
+**/dist
+
 # Logs
 logs
 *.log

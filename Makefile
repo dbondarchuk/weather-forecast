@@ -1,4 +1,7 @@
-DOCKER_IMAGE=dbondarchuk/weather-forecast:latest
+DOCKER_IMAGE_NAME=dbondarchuk/weather-forecast
+DOCKER_TAG:=$(shell git rev-parse --short HEAD)
+
+DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
 
 init:
 	yarn
@@ -26,6 +29,14 @@ build-docker:
 
 publish-docker:
 	docker push ${DOCKER_IMAGE}
+
+docker-tag-latest:
+	docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE_NAME}:latest
+
+publish-docker-latest:
+	docker push ${DOCKER_IMAGE_NAME}:latest
+
+publish-docker-all: publish-docker docker-tag-latest publish-docker-latest
 
 test:
 	yarn run test

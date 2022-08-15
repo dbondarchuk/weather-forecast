@@ -23,7 +23,7 @@
     "build:api": "yarn --cwd models build && yarn --cwd api build",
     "build:ui": "yarn --cwd models build && yarn --cwd ui build",
     "build:models": "yarn --cwd models build",
-    "test": "yarn --cwd models build && yarn --cwd api test",
+    "test": "yarn --cwd models build && yarn --cwd api test && yarn --cwd ui test --watchAll=false",
     "format": "yarn prettier --write .",
     "lint": "yarn eslint ."
   },
