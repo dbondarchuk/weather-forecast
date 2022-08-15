@@ -1,3 +1,0 @@
-FROM dbondarchuk/weather-forecast:latest
-
-CMD [ "yarn", "run", "start:no-build" ]
