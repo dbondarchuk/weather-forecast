@@ -12,6 +12,7 @@ Example: [https://dbondarchuk-weather-forecast.herokuapp.com/](https://dbondarch
 
 - Responsive design
 - City selection with autocomplete (with locally stored database)
+- Detecting user location using browser
 - Adjusting times and dates to the city timezone
 - Clock
 - Dynamic background based on the selected city
