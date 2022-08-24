@@ -19,6 +19,7 @@ describe('WeatherCardHeader', () => {
       <WeatherCardHeader
         city={city}
         timezone={timezone}
+        onLocateMeRequest={() => {}}
         onChangeCity={() => {}}
       />,
     );

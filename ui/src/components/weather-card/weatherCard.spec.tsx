@@ -36,7 +36,7 @@ describe('WeatherCard', () => {
       },
     };
 
-    const weather: CurrentWeather = {
+    const currentWeather: CurrentWeather = {
       icon: '2D',
       type: 'Clouds',
       description: 'a few clouds',
@@ -48,28 +48,14 @@ describe('WeatherCard', () => {
 
     const timezone = -240;
 
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    // @ts-expect-error Tests
-    fetchSpy.mockImplementation((url) =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve(
-            url.toString().indexOf('timezone') >= 0
-              ? timezone
-              : url.toString().indexOf('weather') >= 0
-              ? weather
-              : forecast,
-          ),
-        ok: true,
-      }),
-    );
-
     act(() => {
-      render(<WeatherCard defaultCity={city} />).container;
-    });
-
-    await waitFor(() => {
-      expect(fetchSpy).toBeCalledTimes(3);
+      render(
+        <WeatherCard
+          weatherForecast={{ forecast, currentWeather, timezone, city }}
+          onCityChange={() => {}}
+          onLocateMeRequest={() => {}}
+        />,
+      ).container;
     });
 
     await waitFor(() => {
@@ -107,7 +93,7 @@ describe('WeatherCard', () => {
 
     const currentTemperature = screen.getByTestId('current-temperature');
     expect(currentTemperature.textContent).toBe(
-      `${roundUpTemperature(weather.temperature)}°C`,
+      `${roundUpTemperature(currentWeather.temperature)}°C`,
     );
   });
 });

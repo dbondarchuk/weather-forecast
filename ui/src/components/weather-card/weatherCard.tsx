@@ -3,11 +3,11 @@ import React from 'react';
 import './weatherCard.scss';
 
 import {
-  CurrentWeather as CurrentWeatherModel,
   City as CityModel,
   Forecast,
   FORECAST_DATE_FORMAT,
   ForecastGroup,
+  WeatherForecast,
 } from '@weather-forecast/models';
 import { CurrentConditions } from '../current-conditions/currentConditions';
 import { WeatherCardHeader } from '../weather-card-header/weatherCardHeader';
@@ -17,19 +17,16 @@ import {
   HourlyForecastProperties,
 } from '../hourly-forecast/hourlyForecast';
 import moment from 'moment';
-import { getApiUrl } from '../../helpers';
 
 export interface WeatherCardProperties {
-  defaultCity: CityModel;
-  onCityChange?: (city: CityModel) => void;
+  weatherForecast: WeatherForecast;
+  onCityChange: (city: CityModel) => void;
+  onLocateMeRequest: () => void;
 }
 
 interface WeatherCardState {
   selected?: HourlyForecastProperties;
-  city?: CityModel;
-  weather?: CurrentWeatherModel;
   forecast?: ForecastGroup;
-  timezone: number;
 }
 
 export class WeatherCard extends React.Component<
@@ -40,9 +37,8 @@ export class WeatherCard extends React.Component<
     super(props);
 
     this.state = {
+      forecast: undefined,
       selected: undefined,
-      timezone: NaN,
-      city: this.props.defaultCity,
     };
   }
 
@@ -80,64 +76,29 @@ export class WeatherCard extends React.Component<
   }
 
   onChangeCity(city: CityModel) {
-    this.setState(
-      {
-        city: city,
-      },
-      async () => {
-        if (this.props.onCityChange) this.props.onCityChange(city);
-        await this.fetchData();
-      },
-    );
-  }
-
-  async fetchWeather(): Promise<CurrentWeatherModel> {
-    const body = await fetch(
-      `${getApiUrl()}/weather/city/${this.state.city?.id}`,
-    );
-    return (await body.json()) as CurrentWeatherModel;
-  }
-
-  async fetchForecast(): Promise<Forecast> {
-    const body = await fetch(
-      `${getApiUrl()}/forecast/city/${this.state.city?.id}`,
-    );
-
-    return (await body.json()) as Forecast;
-  }
-
-  async fetchTimezone(): Promise<number> {
-    const response = await fetch(
-      `${getApiUrl()}/city/${this.state.city?.id}/timezone`,
-    );
-
-    const body = await response.json();
-
-    return body as number;
-  }
-
-  async fetchData() {
-    const result = await Promise.all([
-      this.fetchTimezone(),
-      this.fetchWeather(),
-      this.fetchForecast(),
-    ]);
-    this.setState(
-      {
-        timezone: result[0],
-        weather: result[1],
-        forecast: this.buildForecast(result[2], result[0]),
-      },
-      () => {
-        this.selectDay(
-          moment(Object.keys(this.state.forecast!)[0], FORECAST_DATE_FORMAT),
-        );
-      },
-    );
+    this.props.onCityChange(city);
   }
 
   async componentDidMount() {
-    await this.fetchData();
+    if (
+      this.props.weatherForecast.forecast &&
+      this.props.weatherForecast.timezone
+    ) {
+      const forecast = this.buildForecast(
+        this.props.weatherForecast.forecast,
+        this.props.weatherForecast.timezone,
+      );
+      this.setState(
+        {
+          forecast: forecast,
+        },
+        () => {
+          this.selectDay(
+            moment(Object.keys(this.state.forecast!)[0], FORECAST_DATE_FORMAT),
+          );
+        },
+      );
+    }
   }
 
   render() {
@@ -146,9 +107,9 @@ export class WeatherCard extends React.Component<
         <div
           className="card shadow-0 border border-3 weather-card"
           style={{
-            backgroundImage: this.state.city
+            backgroundImage: this.props.weatherForecast?.city
               ? 'url("https://source.unsplash.com/1920x1080/?' +
-                this.state.city.name +
+                this.props.weatherForecast.city.name +
                 ',city")'
               : 'none',
           }}
@@ -156,15 +117,20 @@ export class WeatherCard extends React.Component<
           <div className="card-body p-4">
             <div className="row text-center">
               <div className="col-md-9 text-center border-2 py-4 main-card">
-                {this.state.city && !isNaN(this.state.timezone) && (
-                  <WeatherCardHeader
-                    city={this.state.city}
-                    onChangeCity={(city) => this.onChangeCity(city)}
-                    timezone={this.state.timezone}
+                {this.props.weatherForecast?.city &&
+                  this.props.weatherForecast?.timezone &&
+                  !isNaN(this.props.weatherForecast.timezone) && (
+                    <WeatherCardHeader
+                      city={this.props.weatherForecast.city}
+                      onLocateMeRequest={() => this.props.onLocateMeRequest()}
+                      onChangeCity={(city) => this.onChangeCity(city)}
+                      timezone={this.props.weatherForecast.timezone}
+                    />
+                  )}
+                {this.props.weatherForecast?.currentWeather && (
+                  <CurrentConditions
+                    weather={this.props.weatherForecast.currentWeather}
                   />
-                )}
-                {this.state.weather && (
-                  <CurrentConditions weather={this.state.weather} />
                 )}
                 {this.state.forecast && (
                   <NextDaysForecast
