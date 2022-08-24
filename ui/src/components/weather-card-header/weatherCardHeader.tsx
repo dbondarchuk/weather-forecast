@@ -9,6 +9,7 @@ export interface WeatherCardHeaderProperties {
   city: CityModel;
   timezone: number;
   onChangeCity: (city: CityModel) => void;
+  onLocateMeRequest: () => void;
 }
 
 export class WeatherCardHeader extends React.Component<WeatherCardHeaderProperties> {
@@ -24,6 +25,7 @@ export class WeatherCardHeader extends React.Component<WeatherCardHeaderProperti
         <div className="col-md-6 text-end">
           <City
             city={this.props.city}
+            onLocateMeRequest={() => this.props.onLocateMeRequest()}
             onChangeCity={(city) => this.props.onChangeCity(city)}
           />
         </div>

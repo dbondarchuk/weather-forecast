@@ -1,0 +1,42 @@
+$animation-speed: 1s;
+$per-each: $animation-speed/5;
+
+.loading {
+  display: flex;
+  padding: 5rem;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .spinner {
+    --bs-spinner-animation-name: spinner-grow-size;
+    --bs-spinner-animation-speed: #{$animation-speed};
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+
+    &-1 {
+      animation-delay: $per-each;
+    }
+    &-2 {
+      animation-delay: $per-each * 2;
+    }
+    &-3 {
+      animation-delay: $per-each * 3;
+    }
+    &-4 {
+      animation-delay: $per-each * 4;
+    }
+  }
+}
+
+@keyframes spinner-grow-size {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+  }
+}

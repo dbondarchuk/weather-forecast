@@ -1,6 +1,6 @@
 $line-height: 23px;
 
-.change-location-toggle {
+.locate-me {
   margin-left: 0.5rem;
   cursor: pointer;
   line-height: $line-height;
@@ -9,4 +9,5 @@ $line-height: 23px;
 .current-city {
   line-height: $line-height;
   padding-right: 9px;
+  cursor: pointer;
 }

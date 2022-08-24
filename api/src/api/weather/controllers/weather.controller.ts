@@ -4,9 +4,10 @@ import {
   Controller,
   Get,
   Param,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { CurrentWeather } from '@weather-forecast/models';
+import { CurrentWeather, WeatherForecast } from '@weather-forecast/models';
 import { WeatherService } from '../services/weather.service';
 
 @Controller('api/weather')
@@ -28,5 +29,49 @@ export class WeatherController {
     }
 
     return await this.weatherService.getWeatherByCityIdAsync(cityId);
+  }
+
+  @Get('combined')
+  async getWeatherAndForecastByCoordinatesAsync(
+    @Query('lat') latitudeStr: string,
+    @Query('lon') longitudeStr: string,
+  ): Promise<WeatherForecast> {
+    if (!latitudeStr) {
+      throw new BadRequestException('Latitude is required');
+    }
+
+    const latitude = Number(latitudeStr);
+    if (isNaN(latitude)) {
+      throw new BadRequestException('Latitude should be an integer');
+    }
+    if (!longitudeStr) {
+      throw new BadRequestException('Latitude is required');
+    }
+
+    const longitude = Number(longitudeStr);
+    if (isNaN(longitude)) {
+      throw new BadRequestException('Longitude should be an integer');
+    }
+
+    return await this.weatherService.getWeatherAndForecastByCoordinatesAsync(
+      latitude,
+      longitude,
+    );
+  }
+
+  @Get('combined/:cityId')
+  async getWeatherAndForecastByCityIdAsync(
+    @Param('cityId') cityIdStr: string,
+  ): Promise<WeatherForecast> {
+    if (!cityIdStr) {
+      throw new BadRequestException('CityId is required');
+    }
+
+    const cityId = Number(cityIdStr);
+    if (isNaN(cityId)) {
+      throw new BadRequestException('CityId should be an integer');
+    }
+
+    return await this.weatherService.getWeatherAndForecastByCityIdAsync(cityId);
   }
 }
